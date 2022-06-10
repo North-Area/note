@@ -367,13 +367,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#dft" class="md-nav__link">
-    DFT
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -552,13 +545,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#dft" class="md-nav__link">
-    DFT
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -709,7 +695,33 @@ In order to use wsl properly without errors, it's best to use this command and c
 But after configuration, meep still doesn't work with orz.... Here's a statistic: On Supercomputers, PC's, and VM's, the above method is successful and can run simple code. On a workstation wsl, it doesn't work... I give up...
 <strong>But ！！！！ After I recreated a virtual environment, all the commands worked again!!!! Everything is normal again ！！！！</strong> It's so confusing!!! But at least it worked!!!</p>
 <h2 id="quantum-chemistry">Quantum Chemistry</h2>
-<h2 id="dft">DFT</h2>
+<p>One csh script for ORCA program on JAIST Supercomputer（128 cores）</p>
+<div class="highlight"><pre><span></span><code><span class="err">#</span><span class="o">!/</span><span class="n">bin</span><span class="o">/</span><span class="n">csh</span>
+<span class="err">#</span><span class="n">PBS</span> <span class="o">-</span><span class="n">l</span> <span class="n">select</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">ncpus</span><span class="o">=</span><span class="mi">128</span><span class="p">:</span><span class="n">mpiprocs</span><span class="o">=</span><span class="mi">128</span>
+<span class="err">#</span><span class="n">PBS</span> <span class="o">-</span><span class="n">j</span> <span class="n">oe</span>
+<span class="err">#</span><span class="n">PBS</span> <span class="o">-</span><span class="n">q</span> <span class="n">SMALL</span>
+<span class="err">#</span><span class="n">PBS</span> <span class="o">-</span><span class="n">N</span> <span class="n">ORCA</span>
+
+<span class="n">cd</span> <span class="n">$PBS_O_WORKDIR</span>
+
+<span class="n">source</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">profile</span><span class="p">.</span><span class="na">d</span><span class="o">/</span><span class="n">modules</span><span class="p">.</span><span class="na">csh</span>
+
+<span class="n">module</span> <span class="n">load</span> <span class="n">openmpi</span><span class="o">/</span><span class="mf">4.1.1</span><span class="o">/</span>
+<span class="n">setenv</span> <span class="n">OMPI_ALLOW_RUN_AS_ROOT</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">setenv</span> <span class="n">OMPI_ALLOW_RUN_AS_ROOT_CONFIRM</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="n">setenv</span> <span class="n">PATH</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">studentID</span><span class="o">/</span><span class="n">orca</span><span class="o">/</span><span class="n">orca</span><span class="o">/</span><span class="p">:</span><span class="n">$PATH</span>
+<span class="n">setenv</span> <span class="n">LD_LIBRARY_PATH</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">studentID</span><span class="o">/</span><span class="n">orca</span><span class="o">/</span><span class="n">orca</span><span class="o">/</span><span class="p">:</span><span class="n">$LD_LIBRARY_PATH</span>
+
+<span class="err">###</span> <span class="n">Gaussian</span> <span class="n">Scratch</span> <span class="n">file</span> <span class="n">is</span> <span class="n">saved</span> <span class="n">in</span> <span class="n">current</span> <span class="n">directory</span> <span class="err">###</span>
+<span class="n">setenv</span> <span class="n">ORCA_SCRDIR</span> <span class="n">$PBS_O_WORKDIR</span>
+
+<span class="n">echo</span> <span class="s">&quot;-P-16&quot;</span>  <span class="o">&gt;</span> <span class="n">Default</span><span class="p">.</span><span class="na">Route</span>
+
+<span class="o">~/</span><span class="n">orca</span><span class="o">/</span><span class="n">orca</span><span class="o">/</span><span class="n">orca</span> <span class="n">input</span><span class="p">.</span><span class="na">inp</span><span class="o">&gt;</span> <span class="n">output</span><span class="p">.</span><span class="na">out</span>
+
+<span class="n">rm</span> <span class="o">-</span><span class="n">f</span> <span class="p">.</span><span class="o">/</span><span class="n">Default</span><span class="p">.</span><span class="na">Route</span>
+</code></pre></div>
                 
               
               
